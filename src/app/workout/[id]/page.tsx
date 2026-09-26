@@ -1,10 +1,17 @@
-import { getWorkoutById } from "@/lib/api";
+import { getWorkoutById, getWorkouts } from "@/lib/api";
 import WorkoutDetailView from "@/components/WorkoutDetailView";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 interface WorkoutPageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateStaticParams() {
+  const workouts = await getWorkouts();
+  return workouts.map((workout) => ({
+    id: workout.id.toString(),
+  }));
 }
 
 export async function generateMetadata({ params }: WorkoutPageProps): Promise<Metadata> {
