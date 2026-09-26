@@ -23,7 +23,7 @@ export default function Footer() {
 
         {/* Right: Copyright text */}
         <p className="text-xs sm:text-sm text-muted-text text-center sm:text-right">
-          © 2026 FitLog — Workout Library. Train hard, log honest.
+          &copy; {new Date().getFullYear()} FitLog &mdash; Workout Library. Train hard, log honest.
         </p>
       </div>
     </footer>

@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-dark-bg: #0d0d0d;
-  --color-card-bg: #141414;
+  --color-dark-bg: #080808;
+  --color-card-bg: #12151b;
   --color-card-border: #262626;
   --color-card-hover: #1e1e1e;
   --color-accent-lime: #ccff00;
   --color-accent-lime-hover: #b3e600;
-  --color-muted-text: #888888;
+  --color-muted-text: #9ca3af;
 
   --font-display: var(--font-oswald), sans-serif;
   --font-body: var(--font-inter), sans-serif;
 }
 
 :root {
-  --background: #0d0d0d;
+  --background: #080808;
   --foreground: #ededed;
-  --card-bg: #141414;
+  --card-bg: #12151b;
   --card-border: #262626;
   --accent-lime: #ccff00;
   --accent-lime-hover: #b3e600;
-  --muted-text: #888888;
+  --muted-text: #9ca3af;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {

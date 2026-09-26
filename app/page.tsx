@@ -1,18 +1,28 @@
+import Hero from "@/components/Hero";
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-dark-bg text-[#ededed] flex flex-col items-center justify-center p-8">
-      <div className="max-w-xl text-center space-y-4">
-        <span className="text-xs uppercase tracking-widest text-accent-lime font-semibold px-3 py-1 rounded-full border border-accent-lime/30 bg-accent-lime/10">
-          WORKOUT LIBRARY
-        </span>
-        <h1 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight text-white">
-          Train with intent. <br />
-          <span className="text-accent-lime">Log every set.</span>
-        </h1>
-        <p className="text-muted-text text-sm md:text-base">
-          FitLog is a dark, no-nonsense gym companion: pick a lift, lock it into today&apos;s plan, and watch the week&apos;s work add up.
-        </p>
-      </div>
-    </main>
+    <div className="flex-1 flex flex-col">
+      {/* Hero / Banner Section */}
+      <Hero />
+
+      {/* Target Library Section Placeholder for smooth scroll anchor */}
+      <section
+        id="library"
+        className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20"
+      >
+        <div className="flex flex-col items-center justify-center text-center py-12 border border-dashed border-card-border rounded-2xl bg-card-bg/20">
+          <span className="text-xs uppercase tracking-widest text-accent-lime font-bold mb-2">
+            LIBRARY ANCHOR TARGET
+          </span>
+          <h2 className="text-2xl font-display font-bold uppercase text-white mb-2">
+            The Library
+          </h2>
+          <p className="text-muted-text text-sm max-w-md">
+            Twelve lifts covering every major muscle group will be rendered here.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 }
