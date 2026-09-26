@@ -267,7 +267,6 @@ export async function getWorkouts(): Promise<Workout[]> {
     });
 
     if (!res.ok) {
-      console.warn(`[getWorkouts] API responded with ${res.status} (${res.statusText}). Using fallback data.`);
       return FALLBACK_WORKOUTS;
     }
 
@@ -276,8 +275,8 @@ export async function getWorkouts(): Promise<Workout[]> {
       return FALLBACK_WORKOUTS;
     }
     return data;
-  } catch (error) {
-    console.warn("[getWorkouts] Network or fetch error. Seamlessly using fallback data.", error);
+  } catch {
+    // Cloudflare Worker rate-limited (429) or offline; seamlessly use fallback data
     return FALLBACK_WORKOUTS;
   }
 }
@@ -292,15 +291,12 @@ export async function getWorkoutById(id: string | number): Promise<Workout | nul
     if (res.ok) {
       const data = await res.json();
       if (data && data.id) return data;
-    } else {
-      console.warn(`[getWorkoutById] API returned ${res.status}. Falling back to cached workout.`);
     }
 
     // Fallback to local workout
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     return fallback || null;
-  } catch (error) {
-    console.warn(`[getWorkoutById] Network error for id ${id}. Using fallback.`, error);
+  } catch {
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     return fallback || null;
   }
