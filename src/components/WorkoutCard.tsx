@@ -16,7 +16,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
       className="group flex flex-col bg-[#12151c] border border-white/5 hover:border-white/15 rounded-2xl p-3.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Inset Image with rounded corners and uniform card padding */}
-      <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-black/40 mb-3.5">
+      <div className="relative w-full aspect-16/10 rounded-xl overflow-hidden bg-black/40 mb-3.5">
         <Image
           src={workout.image}
           alt={workout.name}

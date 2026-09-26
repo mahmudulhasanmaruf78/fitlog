@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { getWorkouts, type Workout } from "@/lib/api";
 import WorkoutCard from "@/components/WorkoutCard";
-import { Loader2, AlertCircle, RefreshCw } from "lucide-react";
+import { Loader2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
 
 export default function WorkoutLibrary() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<"Duration" | "Calories" | "Rating">("Duration");
 
   const fetchLibraryData = async () => {
     try {
@@ -31,19 +32,46 @@ export default function WorkoutLibrary() {
     fetchLibraryData();
   }, []);
 
+  const sortedWorkouts = [...workouts].sort((a, b) => {
+    if (sortBy === "Calories") return b.caloriesBurned - a.caloriesBurned;
+    if (sortBy === "Rating") return b.rating - a.rating;
+    return a.duration - b.duration;
+  });
+
   return (
     <section
       id="library"
       className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 scroll-mt-20"
     >
-      {/* Left-Aligned Header: Exact match to screenshot */}
-      <div className="mb-6 sm:mb-8 text-left">
-        <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-white mb-1.5">
-          THE LIBRARY
-        </h2>
-        <p className="text-muted-text text-sm sm:text-base font-normal">
-          Twelve lifts covering every major muscle group.
-        </p>
+      {/* Header with Title and Sort By Dropdown */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
+        <div className="text-left">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-white mb-1.5">
+            THE LIBRARY
+          </h2>
+          <p className="text-muted-text text-sm sm:text-base font-normal">
+            Twelve lifts covering every major muscle group.
+          </p>
+        </div>
+
+        {/* Sort By Dropdown with Chevron (Challenge C1) */}
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <span className="text-xs text-muted-text font-medium uppercase tracking-wider">
+            Sort By:
+          </span>
+          <div className="relative inline-block">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "Duration" | "Calories" | "Rating")}
+              className="appearance-none bg-[#121620] border border-white/10 hover:border-white/20 text-white text-xs font-semibold px-3.5 py-2 pr-8 rounded-xl focus:outline-none focus:border-accent-lime transition-colors cursor-pointer"
+            >
+              <option value="Duration" className="bg-[#121620] text-white">Duration</option>
+              <option value="Calories" className="bg-[#121620] text-white">Calories</option>
+              <option value="Rating" className="bg-[#121620] text-white">Rating</option>
+            </select>
+            <ChevronDown className="w-3.5 h-3.5 text-muted-text absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
       </div>
 
       {/* Loading State */}
@@ -105,9 +133,9 @@ export default function WorkoutLibrary() {
       )}
 
       {/* Grid: 3 columns on large, 2 cols on tablet, 1 on mobile */}
-      {!loading && !error && workouts.length > 0 && (
+      {!loading && !error && sortedWorkouts.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {workouts.map((workout) => (
+          {sortedWorkouts.map((workout) => (
             <WorkoutCard key={workout.id} workout={workout} />
           ))}
         </div>

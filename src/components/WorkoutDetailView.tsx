@@ -1,14 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import {
-  CalendarPlus,
-  Bookmark,
-  Check,
-  ArrowLeft,
-} from "lucide-react";
+import { CalendarPlus, Bookmark, Check } from "lucide-react";
 import type { Workout } from "@/lib/api";
 import { useWorkout } from "@/context/WorkoutContext";
 
@@ -18,28 +12,15 @@ interface WorkoutDetailViewProps {
 
 export default function WorkoutDetailView({ workout }: WorkoutDetailViewProps) {
   const { isInPlan, togglePlan, isSaved, toggleSave } = useWorkout();
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
   const inPlan = isInPlan(workout.id);
   const saved = isSaved(workout.id);
 
   const handlePlanClick = () => {
     togglePlan(workout.id);
-    const msg = inPlan ? "Removed from today's plan" : "Added to today's plan!";
-    showToast(msg);
   };
 
   const handleSaveClick = () => {
     toggleSave(workout.id);
-    const msg = saved ? "Removed from saved workouts" : "Saved for later!";
-    showToast(msg);
-  };
-
-  const showToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 2400);
   };
 
   const specRows = [
@@ -54,14 +35,6 @@ export default function WorkoutDetailView({ workout }: WorkoutDetailViewProps) {
 
   return (
     <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#161b24] border border-accent-lime/40 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs sm:text-sm animate-bounce">
-          <Check className="w-4 h-4 text-accent-lime" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
       {/* Main Workout Detail Container */}
       <div className="bg-[#10141d] border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 shadow-2xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
@@ -108,14 +81,12 @@ export default function WorkoutDetailView({ workout }: WorkoutDetailViewProps) {
               {specRows.map((row) => (
                 <div
                   key={row.label}
-                  className="flex items-center justify-between py-2 sm:py-2.5 border-b border-white/5 last:border-b-0 text-xs sm:text-sm"
+                  className="flex items-center justify-between py-2 sm:py-2.5 border-b border-white/5 text-xs sm:text-sm"
                 >
                   <span className="font-bold text-[10px] sm:text-xs tracking-wider uppercase text-muted-text/80">
                     {row.label}
                   </span>
-                  <span className="font-medium text-white/90">
-                    {row.value}
-                  </span>
+                  <span className="font-medium text-white/90">{row.value}</span>
                 </div>
               ))}
             </div>
