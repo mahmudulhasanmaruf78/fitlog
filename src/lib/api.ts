@@ -262,7 +262,8 @@ export const FALLBACK_WORKOUTS: Workout[] = [
 
 export async function getWorkouts(): Promise<Workout[]> {
   try {
-    const res = await fetch(BASE_URL, {
+    const url = typeof window !== "undefined" ? "/api/fitlog" : BASE_URL;
+    const res = await fetch(url, {
       next: { revalidate: 60 },
     });
 
@@ -276,7 +277,6 @@ export async function getWorkouts(): Promise<Workout[]> {
     }
     return data;
   } catch {
-    // Cloudflare Worker rate-limited (429) or offline; seamlessly use fallback data
     return FALLBACK_WORKOUTS;
   }
 }
@@ -284,7 +284,8 @@ export async function getWorkouts(): Promise<Workout[]> {
 export async function getWorkoutById(id: string | number): Promise<Workout | null> {
   const numericId = Number(id);
   try {
-    const res = await fetch(`${BASE_URL}/${numericId}`, {
+    const url = typeof window !== "undefined" ? `/api/fitlog/${numericId}` : `${BASE_URL}/${numericId}`;
+    const res = await fetch(url, {
       next: { revalidate: 60 },
     });
 
@@ -293,7 +294,6 @@ export async function getWorkoutById(id: string | number): Promise<Workout | nul
       if (data && data.id) return data;
     }
 
-    // Fallback to local workout
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     return fallback || null;
   } catch {
@@ -301,3 +301,4 @@ export async function getWorkoutById(id: string | number): Promise<Workout | nul
     return fallback || null;
   }
 }
+
