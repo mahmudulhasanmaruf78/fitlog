@@ -5,15 +5,29 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useWorkout } from "@/context/WorkoutContext";
 
 interface NavbarProps {
   planCount?: number;
   savedCount?: number;
 }
 
-export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
+export default function Navbar({ planCount: propPlan, savedCount: propSaved }: NavbarProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  let contextPlan = 0;
+  let contextSaved = 0;
+  try {
+    const workoutCtx = useWorkout();
+    contextPlan = workoutCtx.planIds.length;
+    contextSaved = workoutCtx.savedIds.length;
+  } catch {
+    // context not present
+  }
+
+  const planCount = propPlan !== undefined ? propPlan : contextPlan;
+  const savedCount = propSaved !== undefined ? propSaved : contextSaved;
 
   const navLinks = [
     { name: "Workouts", href: "/" },
