@@ -25,6 +25,7 @@ export async function GET() {
     }
 
     // Remote worker returned 429 or invalid data, gracefully return fallback
+    console.warn("API has some error, using fallback workouts.");
     return NextResponse.json(FALLBACK_WORKOUTS, {
       status: 200,
       headers: {
@@ -33,6 +34,7 @@ export async function GET() {
       },
     });
   } catch {
+    console.warn("API has some error, using fallback workouts.");
     return NextResponse.json(FALLBACK_WORKOUTS, {
       status: 200,
       headers: {
@@ -41,3 +43,4 @@ export async function GET() {
     });
   }
 }
+

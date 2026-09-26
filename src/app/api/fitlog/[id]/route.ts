@@ -30,6 +30,7 @@ export async function GET(
       }
     }
 
+    console.warn("API has some error, using fallback workout data.");
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     if (!fallback) {
       return NextResponse.json({ error: "Workout not found" }, { status: 404 });
@@ -42,6 +43,7 @@ export async function GET(
       },
     });
   } catch {
+    console.warn("API has some error, using fallback workout data.");
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     if (!fallback) {
       return NextResponse.json({ error: "Workout not found" }, { status: 404 });
@@ -54,3 +56,4 @@ export async function GET(
     });
   }
 }
+

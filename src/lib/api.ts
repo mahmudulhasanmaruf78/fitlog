@@ -268,15 +268,18 @@ export async function getWorkouts(): Promise<Workout[]> {
     });
 
     if (!res.ok) {
+      console.warn("API has some error, using fallback data.");
       return FALLBACK_WORKOUTS;
     }
 
     const data = await res.json();
     if (!Array.isArray(data) || data.length === 0) {
+      console.warn("API has some error, using fallback data.");
       return FALLBACK_WORKOUTS;
     }
     return data;
   } catch {
+    console.warn("API has some error, using fallback data.");
     return FALLBACK_WORKOUTS;
   }
 }
@@ -294,9 +297,11 @@ export async function getWorkoutById(id: string | number): Promise<Workout | nul
       if (data && data.id) return data;
     }
 
+    console.warn("API has some error, using fallback data.");
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     return fallback || null;
   } catch {
+    console.warn("API has some error, using fallback data.");
     const fallback = FALLBACK_WORKOUTS.find((w) => w.id === numericId);
     return fallback || null;
   }
