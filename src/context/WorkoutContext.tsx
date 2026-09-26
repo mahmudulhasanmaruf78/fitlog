@@ -163,10 +163,10 @@ export function WorkoutProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
-      {/* Global Toast Notification */}
+      {/* Global Toast Notification - Top Right */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#161b24] border border-accent-lime/40 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm animate-bounce font-medium">
-          <div className="w-2 h-2 rounded-full bg-accent-lime" />
+        <div className="fixed top-6 sm:top-8 right-4 sm:right-8 z-[100] bg-[#121620] border border-accent-lime/50 text-white px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-3 text-xs sm:text-sm font-medium backdrop-blur-md transition-all duration-300">
+          <div className="w-2.5 h-2.5 rounded-full bg-accent-lime shadow-[0_0_8px_#ccff00]" />
           <span>{toastMessage}</span>
         </div>
       )}
