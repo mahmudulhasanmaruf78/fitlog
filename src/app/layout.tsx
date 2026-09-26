@@ -27,7 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${oswald.variable} ${inter.variable} dark`}>
+    <html
+      lang="en"
+      className={`${oswald.variable} ${inter.variable} dark`}
+      data-scroll-behavior="smooth"
+    >
       <body className="bg-dark-bg text-[#ededed] min-h-screen antialiased flex flex-col font-body">
         <WorkoutProvider>
           <Navbar />
