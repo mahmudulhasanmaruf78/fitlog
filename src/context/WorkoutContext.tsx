@@ -121,7 +121,7 @@ export function WorkoutProvider({ children }: { children: React.ReactNode }) {
       return { success: true, message: msg };
     } else {
       setSavedIds((prev) => [...prev, id]);
-      const msg = "Added to saved workouts";
+      const msg = "Saved for later";
       showToast(msg);
       return { success: true, message: msg };
     }

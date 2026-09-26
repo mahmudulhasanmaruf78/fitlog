@@ -11,9 +11,10 @@ interface WorkoutDetailViewProps {
 }
 
 export default function WorkoutDetailView({ workout }: WorkoutDetailViewProps) {
-  const { isInPlan, togglePlan, isSaved, toggleSave } = useWorkout();
+  const { isInPlan, togglePlan, isSaved, toggleSave, planIds } = useWorkout();
   const inPlan = isInPlan(workout.id);
   const saved = isSaved(workout.id);
+  const isPlanFull = planIds.length >= 5 && !inPlan;
 
   const handlePlanClick = () => {
     togglePlan(workout.id);
@@ -116,16 +117,25 @@ export default function WorkoutDetailView({ workout }: WorkoutDetailViewProps) {
               <button
                 type="button"
                 onClick={handlePlanClick}
-                className={`inline-flex items-center gap-2 font-semibold text-xs sm:text-sm px-5 py-3 rounded-xl transition-all active:scale-95 cursor-pointer shadow-md ${
-                  inPlan
-                    ? "bg-white text-black hover:bg-gray-200"
-                    : "bg-accent-lime hover:bg-accent-lime-hover text-black"
+                disabled={isPlanFull}
+                title={isPlanFull ? "Cap of 5 lifts reached. Finish them, then load more." : ""}
+                className={`inline-flex items-center gap-2 font-semibold text-xs sm:text-sm px-5 py-3 rounded-xl transition-all shadow-md ${
+                  isPlanFull
+                    ? "bg-white/10 text-muted-text cursor-not-allowed border border-white/5 opacity-60"
+                    : inPlan
+                    ? "bg-white text-black hover:bg-gray-200 active:scale-95 cursor-pointer"
+                    : "bg-accent-lime hover:bg-accent-lime-hover active:scale-95 text-black cursor-pointer"
                 }`}
               >
                 {inPlan ? (
                   <>
                     <Check className="w-4 h-4 text-black stroke-[2.5]" />
                     <span>Added to plan</span>
+                  </>
+                ) : isPlanFull ? (
+                  <>
+                    <CalendarPlus className="w-4 h-4 text-muted-text stroke-[2.2]" />
+                    <span>Plan Full (5 Max)</span>
                   </>
                 ) : (
                   <>
